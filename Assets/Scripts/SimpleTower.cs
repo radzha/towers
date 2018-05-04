@@ -26,7 +26,7 @@ public class SimpleTower : MonoBehaviour
 
             var projectileBeh = projectile.GetComponent<GuidedProjectile>();
 
-            projectileBeh.m_target = monster.gameObject;
+            projectileBeh.MTarget = monster.gameObject;
 
             _mLastShotTime = Time.time;
         }
