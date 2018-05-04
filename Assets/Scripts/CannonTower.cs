@@ -1,30 +1,31 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class CannonTower : MonoBehaviour {
-	public float m_shootInterval = 0.5f;
-	public float m_range = 4f;
-	public GameObject m_projectilePrefab;
-	public Transform m_shootPoint;
+public class CannonTower : MonoBehaviour
+{
+    [SerializeField] private float _mShootInterval = 0.5f;
+    [SerializeField] private float _mRange = 4f;
+    [SerializeField] private GameObject _mProjectilePrefab;
+    [SerializeField] private Transform _mShootPoint;
 
-	private float m_lastShotTime = -0.5f;
+    private float m_lastShotTime = -0.5f;
 
-	void Update () {
-		if (m_projectilePrefab == null || m_shootPoint == null)
-			return;
+    private void Update()
+    {
+        if (_mProjectilePrefab == null || _mShootPoint == null)
+            return;
 
-		foreach (var monster in FindObjectsOfType<Monster>()) {
-			if (Vector3.Distance (transform.position, monster.transform.position) > m_range)
-				continue;
+        foreach (var monster in FindObjectsOfType<Monster>())
+        {
+            if (Vector3.Distance(transform.position, monster.transform.position) > _mRange)
+                continue;
 
-			if (m_lastShotTime + m_shootInterval > Time.time)
-				continue;
+            if (m_lastShotTime + _mShootInterval > Time.time)
+                continue;
 
-			// shot
-			Instantiate(m_projectilePrefab, m_shootPoint.position, m_shootPoint.rotation);
+            // shot
+            Instantiate(_mProjectilePrefab, _mShootPoint.position, _mShootPoint.rotation);
 
-			m_lastShotTime = Time.time;
-		}
-
-	}
+            m_lastShotTime = Time.time;
+        }
+    }
 }

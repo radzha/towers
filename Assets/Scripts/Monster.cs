@@ -1,32 +1,36 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Monster : MonoBehaviour {
+public class Monster : MonoBehaviour
+{
+    public GameObject MMoveTarget { get; set; }
+    public int Health { get; set; }
 
-	public GameObject m_moveTarget;
-	public float m_speed = 0.1f;
-	public int m_maxHP = 30;
-	const float m_reachDistance = 0.3f;
+    private float Speed = 0.1f;
+    private int MaxHealth = 30;
+    private float ReachDistance = 0.3f;
 
-	public int m_hp;
+    private void Start()
+    {
+        Health = MaxHealth;
+    }
 
-	void Start() {
-		m_hp = m_maxHP;
-	}
+    private void Update()
+    {
+        if (MMoveTarget == null)
+            return;
 
-	void Update () {
-		if (m_moveTarget == null)
-			return;
-		
-		if (Vector3.Distance (transform.position, m_moveTarget.transform.position) <= m_reachDistance) {
-			Destroy (gameObject);
-			return;
-		}
+        if (Vector3.Distance(transform.position, MMoveTarget.transform.position) <= ReachDistance)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-		var translation = m_moveTarget.transform.position - transform.position;
-		if (translation.magnitude > m_speed) {
-			translation = translation.normalized * m_speed;
-		}
-		transform.Translate (translation);
-	}
+        var translation = MMoveTarget.transform.position - transform.position;
+        if (translation.magnitude > Speed)
+        {
+            translation = translation.normalized * Speed;
+        }
+
+        transform.Translate(translation);
+    }
 }

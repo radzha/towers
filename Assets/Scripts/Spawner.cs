@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Spawner : MonoBehaviour {
-	public float m_interval = 3;
-	public GameObject m_moveTarget;
+public class Spawner : MonoBehaviour
+{
+    [SerializeField] private float _mInterval = 3;
 
-	private float m_lastSpawn = -1;
+    [SerializeField] private GameObject _mMoveTarget;
 
-	void Update () {
-		if (Time.time > m_lastSpawn + m_interval) {
-			var newMonster = GameObject.CreatePrimitive (PrimitiveType.Capsule);
-			var r = newMonster.AddComponent<Rigidbody> ();
-			r.useGravity = false;
-			newMonster.transform.position = transform.position;
-			var monsterBeh = newMonster.AddComponent<Monster> ();
-			monsterBeh.m_moveTarget = m_moveTarget;
+    private float _mLastSpawn = -1;
 
-			m_lastSpawn = Time.time;
-		}
-	}
+    private void Update()
+    {
+        if (Time.time > _mLastSpawn + _mInterval)
+        {
+            var newMonster = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            var r = newMonster.AddComponent<Rigidbody>();
+            r.useGravity = false;
+            newMonster.transform.position = transform.position;
+            var monsterBeh = newMonster.AddComponent<Monster>();
+            monsterBeh.MMoveTarget = _mMoveTarget;
+
+            _mLastSpawn = Time.time;
+        }
+    }
 }
