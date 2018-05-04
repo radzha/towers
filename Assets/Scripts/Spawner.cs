@@ -2,24 +2,18 @@
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private float _mInterval = 3;
+    [SerializeField] private float _interval = 3;
 
-    [SerializeField] private GameObject _mMoveTarget;
+    [SerializeField] private Transform _moveTarget;
 
-    private float _mLastSpawn = -1;
+    private float _lastSpawnTime = -1;
 
     private void Update()
     {
-        if (Time.time > _mLastSpawn + _mInterval)
+        if (Time.time > _lastSpawnTime + _interval)
         {
-            var newMonster = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            var r = newMonster.AddComponent<Rigidbody>();
-            r.useGravity = false;
-            newMonster.transform.position = transform.position;
-            var monsterBeh = newMonster.AddComponent<Monster>();
-            monsterBeh.MMoveTarget = _mMoveTarget;
-
-            _mLastSpawn = Time.time;
+            MonstersPool.Instance.CreateMonster(transform.position, _moveTarget.position);
+            _lastSpawnTime = Time.time;
         }
     }
 }
