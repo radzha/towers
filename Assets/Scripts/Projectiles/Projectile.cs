@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Progress;
+using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class Projectile : MonoBehaviour
         if (monster == null)
             return;
 
-        monster.Health -= _mDamage;
-        if (monster.Health <= 0)
+        monster.TakeDamage(_mDamage);
+        if (monster.Health() <= 0)
         {
             Destroy(monster.gameObject);
         }
