@@ -4,23 +4,22 @@ namespace Progress
 {
     public class Monster : MonoBehaviour, Damagable
     {
-        // Текущий показатель жизни.
-        protected int health;
-
-        /// <summary>
-        /// Скорость.
-        /// </summary>
-        public float Speed { get; set; }
-
-        // Основной цвет.
-        private Color unitColor;
-
-        // Набор настроек юнита.
+        // Набор настроек монстра.
         public Settings.Monster Settings { get; set; }
 
-        public Vector3 TargetPosition { get; set; }
+        // Текущий показатель жизни.
+        private int _health;
 
-        private float ReachDistance = 0.3f;
+        // Скорость.
+        private float _speed;
+
+        // Дистанция достажения цели.
+        private float _reachDistance = 0.3f;
+
+        // Основной цвет.
+        private Color _color;
+
+        public Vector3 TargetPosition { private get; set; }
 
         private void Awake()
         {
@@ -33,23 +32,24 @@ namespace Progress
         private void SettingsRead()
         {
             Settings = new Settings.Monster();
-            health = Settings.Health;
-            Speed = Settings.Speed;
-            ReachDistance = Settings.ReachDistance;
+            _health = Settings.Health;
+            _speed = Settings.Speed;
+            _reachDistance = Settings.ReachDistance;
+            _color = Settings.MonsterColor;
         }
 
         private void Update()
         {
-            if (Vector3.Distance(transform.position, TargetPosition) <= ReachDistance)
+            if (Vector3.Distance(transform.position, TargetPosition) <= _reachDistance)
             {
                 Destroy(gameObject);
                 return;
             }
 
             var translation = TargetPosition - transform.position;
-            if (translation.magnitude > Speed)
+            if (translation.magnitude > _speed)
             {
-                translation = translation.normalized * Speed;
+                translation = translation.normalized * _speed;
             }
 
             transform.Translate(translation);
@@ -62,12 +62,22 @@ namespace Progress
 
         public int Health()
         {
-            return health;
+            return _health;
         }
 
         public int MaxHealth()
         {
             return Settings.Health;
+        }
+
+        public Color GetColor()
+        {
+            return _color;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            _health -= damage;
         }
 
         public void OnDie()
@@ -77,12 +87,7 @@ namespace Progress
 
         public bool IsDead()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void TakeDamage(int damage)
-        {
-            health -= damage;
+            return _health > 0;
         }
     }
 }

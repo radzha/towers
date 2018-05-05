@@ -12,6 +12,7 @@ public class LevelEditor : SingletonSimple<LevelEditor>
         public int Health;
         public float Speed;
         public float ReachDistance;
+        public Color MonsterColor;
     }
 
     // Настройки фабрики монстров.

@@ -22,11 +22,13 @@ public class MonstersPool : SingletonAuto<MonstersPool>
         else
         {
             var monsterObject = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
             var body = monsterObject.AddComponent<Rigidbody>();
             body.useGravity = false;
             monsterObject.transform.position = initPositon;
             monster = monsterObject.AddComponent<Monster>();
             monster.TargetPosition = targetPosition;
+            meshRenderer.material.color = monster.GetColor();
         }
 
         return monster;

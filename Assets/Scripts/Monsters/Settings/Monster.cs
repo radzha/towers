@@ -1,4 +1,6 @@
-﻿namespace Settings
+﻿using UnityEngine;
+
+namespace Settings
 {
     /// <summary>
     /// Базовые настройки монстра.
@@ -21,6 +23,11 @@
         public float ReachDistance { get; set; }
 
         /// <summary>
+        /// Цвет монстра.
+        /// </summary>
+        public Color MonsterColor { get; set; }
+
+        /// <summary>
         /// Прочитать настройки из редактора уровней.
         /// </summary>
         /// <param name="monsterSettings">Набор настроек.</param>
@@ -31,15 +38,17 @@
             Health = monster.Health;
             Speed = monster.Speed;
             ReachDistance = monster.ReachDistance;
+            MonsterColor = monster.MonsterColor;
         }
 
         /// <summary>
         /// Первичное заполнение настроек.
         /// </summary>
-        public Monster ()
+        public Monster()
         {
-            // Если будут уровни монстров, нужно будет передавать не 0.
-            ReadSettings(LevelEditor.Instance.Monsters, 0);
+            var monsters = LevelEditor.Instance.Monsters;
+            // Выбираем случайного монстра из доступных. Можно ввести веса, если потребуется.
+            ReadSettings(monsters, Random.Range(0, monsters.Length));
         }
     }
 }
