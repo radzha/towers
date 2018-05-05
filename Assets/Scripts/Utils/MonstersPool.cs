@@ -18,6 +18,17 @@ public class MonstersPool : SingletonAuto<MonstersPool>
         if (_pool.Count > 0)
         {
             monster = _pool.Pop();
+            monster.Reset();
+
+            var monsterObject = monster.gameObject;
+            var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
+            monsterObject.transform.position = initPositon;
+            monster.TargetPosition = targetPosition;
+            meshRenderer.material.color = monster.GetColor();
+
+            monster.gameObject.SetActive(true);
+
+            "Monster from pool".CLogBlue(monster.GetHashCode());
         }
         else
         {
@@ -29,8 +40,18 @@ public class MonstersPool : SingletonAuto<MonstersPool>
             monster = monsterObject.AddComponent<Monster>();
             monster.TargetPosition = targetPosition;
             meshRenderer.material.color = monster.GetColor();
+
+            "Monster new".CLog(monster.GetHashCode());
         }
 
         return monster;
+    }
+
+    public void HideMonster(Monster monster)
+    {
+        "Monster was hidden".CLogRed(monster.GetHashCode());
+        
+        monster.gameObject.SetActive(false);
+        _pool.Push(monster);
     }
 }

@@ -23,7 +23,8 @@ namespace Progress
 
         private void Awake()
         {
-            SettingsRead();
+            Debug.Log("Awake: " + GetHashCode());
+            Reset();
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Progress
         {
             if (Vector3.Distance(transform.position, TargetPosition) <= _reachDistance)
             {
-                Destroy(gameObject);
+                OnDie();
                 return;
             }
 
@@ -57,7 +58,7 @@ namespace Progress
 
         public void Reset()
         {
-//            Health = MaxHealth();
+            SettingsRead();
         }
 
         public int Health()
@@ -82,7 +83,7 @@ namespace Progress
 
         public void OnDie()
         {
-            throw new System.NotImplementedException();
+            MonstersPool.Instance.HideMonster(this);
         }
 
         public bool IsDead()
