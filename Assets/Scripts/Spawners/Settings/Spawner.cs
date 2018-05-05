@@ -33,9 +33,6 @@ namespace Settings
         /// </summary>
         public Spawner()
         {
-            var i = LevelEditor.Instance;
-            Debug.Log("i: " +(i==null));
-            Debug.Log("sp " +(i.Spawners==null));
             // Если будут разные виды/уровни споунеров, нужно будет передавать не 0.
             ReadSettings(LevelEditor.Instance.Spawners, 0);
         }

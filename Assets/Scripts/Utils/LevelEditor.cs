@@ -3,7 +3,7 @@
 /// <summary>
 /// Редактор уровней. Заполняется значениями в инспекторе.
 /// </summary>
-public class LevelEditor : Singleton<LevelEditor>
+public class LevelEditor : SingletonSimple<LevelEditor>
 {
     // Настройки монстров.
     [System.Serializable]
