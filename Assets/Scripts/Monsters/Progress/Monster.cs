@@ -8,7 +8,7 @@ namespace Progress
         public Settings.Monster Settings { get; set; }
 
         // Текущий показатель жизни.
-        private int _health;
+        private float _health;
 
         // Скорость.
         private float _speed;
@@ -23,8 +23,6 @@ namespace Progress
 
         private void Awake()
         {
-            Debug.Log("Awake: " + GetHashCode());
-            
             LevelEditor.Instance.OnSettingsUpdated -= SettingsRead;
             LevelEditor.Instance.OnSettingsUpdated += SettingsRead;
             
@@ -65,12 +63,12 @@ namespace Progress
             SettingsRead();
         }
 
-        public int Health()
+        public float Health()
         {
             return _health;
         }
 
-        public int MaxHealth()
+        public float MaxHealth()
         {
             return Settings.Health;
         }
@@ -80,7 +78,7 @@ namespace Progress
             return _color;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(float damage)
         {
             _health -= damage;
         }

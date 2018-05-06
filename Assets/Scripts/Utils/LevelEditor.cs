@@ -33,9 +33,18 @@ public class LevelEditor : SingletonSimple<LevelEditor>
         public Settings.Tower.TowerType TowerType;
         public float ShootInterval;
         public float AttackRange;
-        public GameObject ProjectilePrefab;
     }
-
+    
+    // Настройки снарядов.
+    [System.Serializable]
+    public struct Projectile
+    {
+        public Settings.Projectile.Type Type;
+        public float Damage;
+        public float Speed;
+        public GameObject Prefab;
+    }
+    
     // Массив настроек монстров. Их может быть много, если есть потребность делить их по уровням, например.
     [Header("==== Monsters ====")] public MonsterSettings[] Monsters;
 
@@ -44,6 +53,9 @@ public class LevelEditor : SingletonSimple<LevelEditor>
 
     // Массив настроек башень.
     [Header("==== Towers ====")] public Tower[] Towers;
+    
+    // Массив настроек снарядов.
+    [Header("==== Projectiles ====")] public Projectile[] Projectiles;
 
     [Header("==== Other settings ====")] 
     public Transform MonstersHolder;

@@ -30,8 +30,6 @@ public class MonstersPool : SingletonAuto<MonstersPool>
             meshRenderer.material.color = monster.GetColor();
 
             monster.gameObject.SetActive(true);
-
-            "Monster from pool".CLogBlue(monster.GetHashCode());
         }
         else
         {
@@ -53,8 +51,6 @@ public class MonstersPool : SingletonAuto<MonstersPool>
             monster = monsterObject.AddComponent<Monster>();
             monster.TargetPosition = targetPosition;
             meshRenderer.material.color = monster.GetColor();
-
-            "Monster new".CLog(monster.GetHashCode());
         }
 
         return monster;
@@ -76,8 +72,6 @@ public class MonstersPool : SingletonAuto<MonstersPool>
 
     public void HideMonster(Monster monster)
     {
-        "Monster was hidden".CLogRed(monster.GetHashCode());
-
         monster.gameObject.SetActive(false);
         _pool.Push(monster);
     }

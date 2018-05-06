@@ -14,7 +14,6 @@ namespace Settings
         public Settings.Tower.TowerType Type { get; private set; }
         public float ShootInterval { get; private set; }
         public float AttackRange { get; private set; }
-        public GameObject ProjectilePrefab { get; private set; }
 
         /// <summary>
         /// Прочитать настройки из редактора уровней.
@@ -24,7 +23,6 @@ namespace Settings
             Type = tower.TowerType;
             ShootInterval = tower.ShootInterval;
             AttackRange = tower.AttackRange;
-            ProjectilePrefab = tower.ProjectilePrefab;
         }
 
         /// <summary>

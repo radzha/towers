@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Progress
 {
@@ -6,7 +7,6 @@ namespace Progress
     {
         [SerializeField] private float _shootInterval = 0.5f;
         [SerializeField] private float _range = 4f;
-        [SerializeField] private GameObject _projectilePrefab;
 
         private float _mLastShotTime = -0.5f;
 
@@ -16,7 +16,7 @@ namespace Progress
 
         protected virtual bool MissingPrefabs()
         {
-            return _projectilePrefab == null;
+            return false;
         }
 
         private void Awake()
@@ -36,7 +36,6 @@ namespace Progress
 
             _shootInterval = settings.ShootInterval;
             _range = settings.AttackRange;
-            _projectilePrefab = settings.ProjectilePrefab;
         }
 
         private void Update()
@@ -55,9 +54,8 @@ namespace Progress
 
         private void MakeShot(Monster monster)
         {
-            var projectile = Instantiate(_projectilePrefab, GetShootPosition(), GetShootRotation(),
-                LevelEditor.Instance.ProjectilesHolder);
-
+            var projectile = Projectile.Create(GetProjectileType(), GetShootPosition(), GetShootRotation());
+            
             HandleProjectile(projectile, monster);
 
             _mLastShotTime = Time.time;
@@ -66,6 +64,18 @@ namespace Progress
         protected virtual void HandleProjectile(GameObject projectile, Monster monster)
         {
             //do nothing
+        }
+
+        private Settings.Projectile.Type GetProjectileType()
+        {
+            switch (GetTowerType())
+            {
+                case Settings.Tower.TowerType.Simple:
+                    return Settings.Projectile.Type.Crystal;
+                case Settings.Tower.TowerType.Cannon:
+                default:
+                    return Settings.Projectile.Type.Ball;
+            }
         }
     }
 }

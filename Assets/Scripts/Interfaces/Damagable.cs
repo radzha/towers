@@ -5,12 +5,12 @@ public interface Damagable {
 	/// <summary>
 	/// Текущее здоровье.
 	/// </summary>
-	int Health();
+	float Health();
 
 	/// <summary>
 	/// Максимум здоровья.
 	/// </summary>
-	int MaxHealth();
+	float MaxHealth();
 
 	/// <summary>
 	/// Вызывается после смерти монстра.
@@ -27,6 +27,6 @@ public interface Damagable {
 	/// </summary>
 	/// <param name="damage">Сколько урона.</param>
 	/// <returns>Профит наносящему урон.</returns>
-	void TakeDamage(int damage);
+	void TakeDamage(float damage);
 
 }

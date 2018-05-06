@@ -4,11 +4,11 @@ namespace Progress
 {
     public class CannonTower : Tower
     {
-        [SerializeField] private Transform _mShootPoint;
+        [SerializeField] private Transform _shootPoint;
 
         protected override bool MissingPrefabs()
         {
-            return base.MissingPrefabs() || _mShootPoint == null;
+            return base.MissingPrefabs() || _shootPoint == null;
         }
 
         protected override Settings.Tower.TowerType GetTowerType()
@@ -18,12 +18,12 @@ namespace Progress
 
         protected override Vector3 GetShootPosition()
         {
-            return _mShootPoint.position;
+            return _shootPoint.position;
         }
 
         protected override Quaternion GetShootRotation()
         {
-            return _mShootPoint.rotation;
+            return _shootPoint.rotation;
         }
     }
 }
