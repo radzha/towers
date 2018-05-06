@@ -23,7 +23,7 @@ namespace Progress
         {
             LevelEditor.Instance.OnSettingsUpdated -= SettingsRead;
             LevelEditor.Instance.OnSettingsUpdated += SettingsRead;
-            
+
             SettingsRead();
         }
 
@@ -33,7 +33,7 @@ namespace Progress
         private void SettingsRead()
         {
             var settings = new Settings.Tower(GetTowerType());
-            
+
             _shootInterval = settings.ShootInterval;
             _range = settings.AttackRange;
             _projectilePrefab = settings.ProjectilePrefab;
@@ -55,7 +55,8 @@ namespace Progress
 
         private void MakeShot(Monster monster)
         {
-            var projectile = Instantiate(_projectilePrefab, GetShootPosition(), GetShootRotation());
+            var projectile = Instantiate(_projectilePrefab, GetShootPosition(), GetShootRotation(),
+                LevelEditor.Instance.ProjectilesHolder);
 
             HandleProjectile(projectile, monster);
 
