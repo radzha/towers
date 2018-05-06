@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Progress;
 using UnityEngine;
 
 public class MonstersPool : SingletonAuto<MonstersPool>
 {
     private readonly Stack<Monster> _pool = new Stack<Monster>();
+
+    private Transform _monstersParent;
 
     public void CreateMonster(Vector3 initPositon, Vector3 targetPosition)
     {
@@ -33,9 +36,19 @@ public class MonstersPool : SingletonAuto<MonstersPool>
         else
         {
             var monsterObject = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+
+            SetParent(monsterObject.transform);
+
             var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
+
             var body = monsterObject.AddComponent<Rigidbody>();
             body.useGravity = false;
+            body.angularDrag = float.PositiveInfinity;
+            body.drag = float.PositiveInfinity;
+            body.constraints = RigidbodyConstraints.FreezePositionY
+                               | RigidbodyConstraints.FreezeRotationX
+                               | RigidbodyConstraints.FreezeRotationZ;
+
             monsterObject.transform.position = initPositon;
             monster = monsterObject.AddComponent<Monster>();
             monster.TargetPosition = targetPosition;
@@ -47,10 +60,24 @@ public class MonstersPool : SingletonAuto<MonstersPool>
         return monster;
     }
 
+    private void SetParent(Transform monster)
+    {
+        if (_monstersParent == null)
+        {
+            var o = GameObject.Find("Monsters");
+            if (o != null)
+            {
+                _monstersParent = o.transform;
+            }
+        }
+
+        monster.transform.SetParent(_monstersParent);
+    }
+
     public void HideMonster(Monster monster)
     {
         "Monster was hidden".CLogRed(monster.GetHashCode());
-        
+
         monster.gameObject.SetActive(false);
         _pool.Push(monster);
     }

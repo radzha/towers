@@ -45,6 +45,8 @@ public class LevelEditor : SingletonSimple<LevelEditor>
     // Массив настроек башень.
     [Header("==== Towers ====")] public Tower[] Towers;
 
+    [Header("==== Other settings ====")] public Transform MonstersHolder;
+
     private void OnValidate()
     {
         if (OnSettingsUpdated != null)
