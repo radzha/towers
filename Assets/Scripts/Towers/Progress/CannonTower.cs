@@ -6,11 +6,6 @@ namespace Progress
     {
         [SerializeField] private Transform _shootPoint;
 
-        protected override bool MissingPrefabs()
-        {
-            return base.MissingPrefabs() || _shootPoint == null;
-        }
-
         protected override Settings.Tower.TowerType GetTowerType()
         {
             return Settings.Tower.TowerType.Cannon;

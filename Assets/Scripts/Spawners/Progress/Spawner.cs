@@ -34,7 +34,7 @@ namespace Progress
         {
             if (Time.time > _lastSpawnTime + _interval)
             {
-                MonstersPool.Instance.CreateMonster(transform.position, _moveTarget.position);
+                MonsterManager.Instance.CreateMonster(transform.position, _moveTarget.position);
                 _lastSpawnTime = Time.time;
             }
         }

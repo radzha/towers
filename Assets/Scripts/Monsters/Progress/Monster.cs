@@ -81,11 +81,16 @@ namespace Progress
         public void TakeDamage(float damage)
         {
             _health -= damage;
+            
+            if (_health < 0)
+            {
+                OnDie();
+            }
         }
 
         public void OnDie()
         {
-            MonstersPool.Instance.HideMonster(this);
+            MonsterManager.Instance.HideMonster(this);
         }
 
         public bool IsDead()

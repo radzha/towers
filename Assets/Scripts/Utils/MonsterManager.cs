@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Progress;
 using UnityEngine;
 
-public class MonstersPool : SingletonAuto<MonstersPool>
+public class MonsterManager : SingletonAuto<MonsterManager>
 {
     private readonly Stack<Monster> _pool = new Stack<Monster>();
+    private readonly HashSet<Monster> _activeMonsters = new HashSet<Monster>();
 
     private Transform _monstersParent;
 
@@ -28,8 +29,6 @@ public class MonstersPool : SingletonAuto<MonstersPool>
             monsterObject.transform.position = initPositon;
             monster.TargetPosition = targetPosition;
             meshRenderer.material.color = monster.GetColor();
-
-            monster.gameObject.SetActive(true);
         }
         else
         {
@@ -53,6 +52,8 @@ public class MonstersPool : SingletonAuto<MonstersPool>
             meshRenderer.material.color = monster.GetColor();
         }
 
+        ShowMonster(monster);
+
         return monster;
     }
 
@@ -72,7 +73,19 @@ public class MonstersPool : SingletonAuto<MonstersPool>
 
     public void HideMonster(Monster monster)
     {
+        _activeMonsters.Remove(monster);
         monster.gameObject.SetActive(false);
         _pool.Push(monster);
+    }
+
+    private void ShowMonster(Monster monster)
+    {
+        monster.gameObject.SetActive(true);
+        _activeMonsters.Add(monster);
+    }
+
+    public IEnumerable<Monster> GetActiveMonsters()
+    {
+        return _activeMonsters;
     }
 }

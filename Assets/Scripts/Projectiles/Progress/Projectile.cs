@@ -39,16 +39,12 @@ namespace Progress
         private void OnTriggerEnter(Collider other)
         {
             var monster = other.gameObject.GetComponent<Monster>();
-            if (monster == null)
-                return;
-
-            monster.TakeDamage(_damage);
-            if (monster.Health() <= 0)
+            if (monster != null)
             {
-                Destroy(monster.gameObject);
-            }
+                monster.TakeDamage(_damage);
 
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }

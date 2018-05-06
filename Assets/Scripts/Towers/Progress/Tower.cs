@@ -8,16 +8,11 @@ namespace Progress
         [SerializeField] private float _shootInterval = 0.5f;
         [SerializeField] private float _range = 4f;
 
-        private float _mLastShotTime = -0.5f;
+        private float _lastShotTime = -0.5f;
 
         protected abstract Settings.Tower.TowerType GetTowerType();
         protected abstract Vector3 GetShootPosition();
         protected abstract Quaternion GetShootRotation();
-
-        protected virtual bool MissingPrefabs()
-        {
-            return false;
-        }
 
         private void Awake()
         {
@@ -40,25 +35,26 @@ namespace Progress
 
         private void Update()
         {
-            if (MissingPrefabs()) return;
-
-            foreach (var monster in FindObjectsOfType<Monster>())
+            if (_lastShotTime + _shootInterval <= Time.time)
             {
-                if (Vector3.Distance(transform.position, monster.transform.position) > _range) continue;
-
-                if (_mLastShotTime + _shootInterval > Time.time) continue;
-
-                MakeShot(monster);
+                foreach (var monster in MonsterManager.Instance.GetActiveMonsters())
+                {
+                    if (Vector3.Distance(transform.position, monster.transform.position) <= _range)
+                    {
+                        MakeShot(monster);
+                        break;
+                    }
+                }
             }
         }
 
         private void MakeShot(Monster monster)
         {
             var projectile = Projectile.Create(GetProjectileType(), GetShootPosition(), GetShootRotation());
-            
+
             HandleProjectile(projectile, monster);
 
-            _mLastShotTime = Time.time;
+            _lastShotTime = Time.time;
         }
 
         protected virtual void HandleProjectile(GameObject projectile, Monster monster)
