@@ -25,8 +25,10 @@ public class MonsterManager : SingletonAuto<MonsterManager>
             monster.Reset();
 
             var monsterObject = monster.gameObject;
-            var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
             monsterObject.transform.position = initPositon;
+            monsterObject.tag = "Explodable";
+            
+            var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
             monster.TargetPosition = targetPosition;
             meshRenderer.material.color = monster.GetColor();
         }

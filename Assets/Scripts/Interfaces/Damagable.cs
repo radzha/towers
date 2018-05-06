@@ -15,7 +15,7 @@ public interface Damagable {
 	/// <summary>
 	/// Вызывается после смерти монстра.
 	/// </summary>
-	void OnDie();
+	void Die();
 
 	/// <summary>
 	/// Жив ли юнит или здание.

@@ -24,7 +24,7 @@ namespace Progress
         {
             var projectileBeh = projectile.GetComponent<GuidedProjectile>();
 
-            projectileBeh.MTarget = monster.gameObject;
+            projectileBeh.Target = monster.gameObject;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Progress
 {
     public class GuidedProjectile : Projectile
     {
-        public GameObject MTarget;
+        public GameObject Target;
 
         protected override Settings.Projectile.Type GetProjectileType()
         {
@@ -13,13 +13,13 @@ namespace Progress
         
         private void Update()
         {
-            if (MTarget == null)
+            if (Target == null)
             {
                 Destroy(gameObject);
                 return;
             }
 
-            var translation = MTarget.transform.position - transform.position;
+            var translation = Target.transform.position - transform.position;
             if (translation.magnitude > Speed)
             {
                 translation = translation.normalized * Speed;

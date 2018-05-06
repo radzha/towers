@@ -45,7 +45,7 @@ namespace Progress
         {
             if (Vector3.Distance(transform.position, TargetPosition) <= _reachDistance)
             {
-                OnDie();
+                Die();
                 return;
             }
 
@@ -84,11 +84,11 @@ namespace Progress
             
             if (_health < 0)
             {
-                OnDie();
+                Die();
             }
         }
 
-        public void OnDie()
+        public void Die()
         {
             MonsterManager.Instance.HideMonster(this);
         }

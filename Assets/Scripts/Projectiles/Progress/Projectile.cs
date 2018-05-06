@@ -42,7 +42,10 @@ namespace Progress
             if (monster != null)
             {
                 monster.TakeDamage(_damage);
+            }
 
+            if (other.gameObject.CompareTag("Explodable"))
+            {
                 Destroy(gameObject);
             }
         }
