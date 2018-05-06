@@ -11,6 +11,11 @@ namespace Progress
             return base.MissingPrefabs() || _mShootPoint == null;
         }
 
+        protected override Settings.Tower.TowerType GetType()
+        {
+            return Settings.Tower.TowerType.Cannon;
+        }
+
         protected override Vector3 GetShootPosition()
         {
             return _mShootPoint.position;

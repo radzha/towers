@@ -4,19 +4,36 @@ namespace Progress
 {
     public abstract class Tower : MonoBehaviour
     {
-        [SerializeField] private float _mShootInterval = 0.5f;
-        [SerializeField] private float _mRange = 4f;
-        [SerializeField] private GameObject _mProjectilePrefab;
+        [SerializeField] private float _shootInterval = 0.5f;
+        [SerializeField] private float _range = 4f;
+        [SerializeField] private GameObject _projectilePrefab;
 
         private float _mLastShotTime = -0.5f;
 
-        protected virtual bool MissingPrefabs()
-        {
-            return _mProjectilePrefab == null;
-        }
-
+        protected abstract Settings.Tower.TowerType GetType();
         protected abstract Vector3 GetShootPosition();
         protected abstract Quaternion GetShootRotation();
+
+        protected virtual bool MissingPrefabs()
+        {
+            return _projectilePrefab == null;
+        }
+
+        private void Awake()
+        {
+            SettingsRead(GetType());
+        }
+        
+        /// <summary>
+        /// Чтение настроек.
+        /// </summary>
+        protected void SettingsRead(Settings.Tower.TowerType type)
+        {
+            var settings = new Settings.Tower(type);
+            _shootInterval = settings.ShootInterval;
+            _range = settings.AttackRange;
+            _projectilePrefab = settings.ProjectilePrefab;
+        }
 
         private void Update()
         {
@@ -24,9 +41,9 @@ namespace Progress
 
             foreach (var monster in FindObjectsOfType<Monster>())
             {
-                if (Vector3.Distance(transform.position, monster.transform.position) > _mRange) continue;
+                if (Vector3.Distance(transform.position, monster.transform.position) > _range) continue;
 
-                if (_mLastShotTime + _mShootInterval > Time.time) continue;
+                if (_mLastShotTime + _shootInterval > Time.time) continue;
 
                 MakeShot(monster);
             }
@@ -34,7 +51,7 @@ namespace Progress
 
         private void MakeShot(Monster monster)
         {
-            var projectile = Instantiate(_mProjectilePrefab, GetShootPosition(), GetShootRotation());
+            var projectile = Instantiate(_projectilePrefab, GetShootPosition(), GetShootRotation());
 
             HandleProjectile(projectile, monster);
 

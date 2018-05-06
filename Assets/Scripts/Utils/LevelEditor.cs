@@ -23,7 +23,6 @@ public class LevelEditor : SingletonSimple<LevelEditor>
         public Transform MoveTarget;
     }
 
-
     // Настройки башень.
     [System.Serializable]
     public struct Tower

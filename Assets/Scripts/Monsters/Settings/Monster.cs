@@ -10,22 +10,22 @@ namespace Settings
         /// <summary>
         /// Количество жизней
         /// </summary>
-        public int Health { get; set; }
+        public int Health { get; private set; }
 
         /// <summary>
         /// Скорость передвижения.
         /// </summary>
-        public float Speed { get; set; }
+        public float Speed { get; private set; }
 
         /// <summary>
         /// Дистанция поражения монстра.
         /// </summary>
-        public float ReachDistance { get; set; }
+        public float ReachDistance { get; private set; }
 
         /// <summary>
         /// Цвет монстра.
         /// </summary>
-        public Color MonsterColor { get; set; }
+        public Color MonsterColor { get; private set; }
 
         /// <summary>
         /// Прочитать настройки из редактора уровней.

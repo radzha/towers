@@ -5,6 +5,11 @@ namespace Progress
 {
     public class SimpleTower : Tower
     {
+        protected override Settings.Tower.TowerType GetType()
+        {
+            return Settings.Tower.TowerType.Simple;
+        }
+
         protected override Vector3 GetShootPosition()
         {
             return transform.position + Vector3.up * 1.5f;
