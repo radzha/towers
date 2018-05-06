@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Редактор уровней. Заполняется значениями в инспекторе.
 /// </summary>
 public class LevelEditor : SingletonSimple<LevelEditor>
 {
+    public event Action OnSettingsUpdated;
+
     // Настройки монстров.
     [System.Serializable]
     public struct MonsterSettings
@@ -41,4 +44,12 @@ public class LevelEditor : SingletonSimple<LevelEditor>
 
     // Массив настроек башень.
     [Header("==== Towers ====")] public Tower[] Towers;
+
+    private void OnValidate()
+    {
+        if (OnSettingsUpdated != null)
+        {
+            OnSettingsUpdated.Invoke();
+        }
+    }
 }

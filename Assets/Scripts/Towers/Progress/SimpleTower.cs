@@ -5,7 +5,7 @@ namespace Progress
 {
     public class SimpleTower : Tower
     {
-        protected override Settings.Tower.TowerType GetType()
+        protected override Settings.Tower.TowerType GetTowerType()
         {
             return Settings.Tower.TowerType.Simple;
         }

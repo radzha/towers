@@ -14,6 +14,9 @@ namespace Progress
 
         private void Awake()
         {
+            LevelEditor.Instance.OnSettingsUpdated -= SettingsRead;
+            LevelEditor.Instance.OnSettingsUpdated += SettingsRead;
+            
             SettingsRead();
         }
 

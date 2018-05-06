@@ -10,7 +10,7 @@ namespace Progress
 
         private float _mLastShotTime = -0.5f;
 
-        protected abstract Settings.Tower.TowerType GetType();
+        protected abstract Settings.Tower.TowerType GetTowerType();
         protected abstract Vector3 GetShootPosition();
         protected abstract Quaternion GetShootRotation();
 
@@ -21,15 +21,19 @@ namespace Progress
 
         private void Awake()
         {
-            SettingsRead(GetType());
+            LevelEditor.Instance.OnSettingsUpdated -= SettingsRead;
+            LevelEditor.Instance.OnSettingsUpdated += SettingsRead;
+            
+            SettingsRead();
         }
-        
+
         /// <summary>
         /// Чтение настроек.
         /// </summary>
-        protected void SettingsRead(Settings.Tower.TowerType type)
+        private void SettingsRead()
         {
-            var settings = new Settings.Tower(type);
+            var settings = new Settings.Tower(GetTowerType());
+            
             _shootInterval = settings.ShootInterval;
             _range = settings.AttackRange;
             _projectilePrefab = settings.ProjectilePrefab;

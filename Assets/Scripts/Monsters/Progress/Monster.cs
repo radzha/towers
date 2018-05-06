@@ -24,6 +24,10 @@ namespace Progress
         private void Awake()
         {
             Debug.Log("Awake: " + GetHashCode());
+            
+            LevelEditor.Instance.OnSettingsUpdated -= SettingsRead;
+            LevelEditor.Instance.OnSettingsUpdated += SettingsRead;
+            
             Reset();
         }
 
