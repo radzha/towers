@@ -2,7 +2,7 @@
 
 namespace Progress
 {
-    public class Monster : MonoBehaviour, Damagable
+    public class Monster : MonoBehaviour, IDamagable
     {
         // Набор настроек монстра.
         public Settings.Monster Settings { get; set; }
