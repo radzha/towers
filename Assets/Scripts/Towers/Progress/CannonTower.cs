@@ -8,6 +8,7 @@ namespace Progress
     {
         [SerializeField] private Transform _shootPoint;
 
+        private const float TurningEpsilon = 0.05f;
         private Monster _target;
 
         protected override Settings.Tower.TowerType GetTowerType()
@@ -73,7 +74,7 @@ namespace Progress
             {
                 angle = maxAngle * Mathf.Sign(angle);
             }
-            else if (Mathf.Abs(angle) < 0.1f)
+            else if (Mathf.Abs(angle) < TurningEpsilon)
             {
                 return null;
             }

@@ -21,7 +21,7 @@ public class ProjectileManager : SingletonAuto<ProjectileManager>
         return projectile.gameObject;
     }
 
-    private Stack<Projectile> GetPool(Dictionary<Settings.Projectile.Type, Stack<Projectile>> poolDict,
+    private static Stack<Projectile> GetPool(Dictionary<Settings.Projectile.Type, Stack<Projectile>> poolDict,
         Settings.Projectile.Type type)
     {
         Stack<Projectile> pool;
