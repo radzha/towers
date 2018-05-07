@@ -50,9 +50,12 @@ namespace Progress
             }
 
             var translation = TargetPosition - transform.position;
-            if (translation.magnitude > _speed)
+            
+            
+            var currentSpeed = _speed * Time.deltaTime;
+            if (translation.magnitude > currentSpeed)
             {
-                translation = translation.normalized * _speed;
+                translation = translation.normalized * currentSpeed;
             }
 
             transform.Translate(translation);
@@ -96,6 +99,15 @@ namespace Progress
         public bool IsAlive()
         {
             return MonsterManager.Instance.GetActiveMonsters().Contains(this);
+        }
+
+        public void SetColor(Color color)
+        {
+            _color = color;
+            
+            var monsterObject = gameObject;
+            var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
+            meshRenderer.material.color = _color;
         }
     }
 }

@@ -34,8 +34,11 @@ namespace Progress
         public static GameObject Create(Settings.Projectile.Type type, Vector3 position, Quaternion rotation,
             float speedBoost)
         {
+            "create".CLog(type);
             var prefab = LevelEditor.Instance.Projectiles.FirstOrDefault(p => p.Type == type).Prefab;
             var o = Instantiate(prefab, position, rotation, LevelEditor.Instance.ProjectilesHolder);
+            "prefab".CLog(prefab);
+            "pos".CLog(position);
             var projectile = o.GetComponent<Projectile>();
             projectile.SpeedBoost = speedBoost;
             return o;
@@ -51,6 +54,8 @@ namespace Progress
 
             if (other.gameObject.CompareTag("Explodable"))
             {
+                
+            "destroy".CLog(Time.time);
                 Destroy(gameObject);
             }
         }

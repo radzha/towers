@@ -34,6 +34,7 @@ namespace Progress
 
             if (_target != null)
             {
+                _target.SetColor(Color.cyan);
                 var turningSpeed = GetNeededTurningSpeed();
                 if (turningSpeed != null)
                 {
@@ -64,7 +65,6 @@ namespace Progress
             target.y = cannon.y = 0f;
 
             var angle = SignedAngle(cannon, target, Vector3.up);
-            Debug.DrawRay(transform.position, transform.forward * 15);
 
             var maxAngle = _turningSpeed * Time.deltaTime;
             if (Mathf.Abs(angle) >= maxAngle)
@@ -89,7 +89,7 @@ namespace Progress
 
         private float GetTimeBeforeExplode()
         {
-            var shotHeight = transform.position.y + _shootPoint.position.y;
+            var shotHeight = _shootPoint.position.y;
             var gravity = 9.81f;
             var time = Mathf.Sqrt(shotHeight * 2f / gravity);
             return time;
@@ -99,7 +99,9 @@ namespace Progress
         {
             var time = GetTimeBeforeExplode();
             var targetPosition = TargetPredictedPosition(time);
+            Debug.DrawLine(_shootPoint.position, targetPosition);
             var speed = Vector3.Distance(targetPosition, _shootPoint.position) / time;
+            "time1".CLog(time);
             "speed".CLogBlue(speed);
             var projectileSpeed = LevelEditor.Instance.Projectiles.FirstOrDefault(p => p.Type == GetProjectileType())
                 .Speed;

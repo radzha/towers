@@ -10,7 +10,7 @@ namespace Progress
         {
             return Settings.Projectile.Type.Crystal;
         }
-        
+
         private void Update()
         {
             if (Target == null)
@@ -20,9 +20,10 @@ namespace Progress
             }
 
             var translation = Target.transform.position - transform.position;
-            if (translation.magnitude > Speed)
+            var currentSpeed = Speed * Time.deltaTime;
+            if (translation.magnitude > currentSpeed)
             {
-                translation = translation.normalized * Speed;
+                translation = translation.normalized * currentSpeed;
             }
 
             transform.Translate(translation);
