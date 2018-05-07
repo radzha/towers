@@ -45,7 +45,7 @@ namespace Progress
                 monster.TakeDamage(_damage);
             }
 
-            if (other.gameObject.CompareTag("Explodable"))
+            if (other.gameObject.CompareTag(Constants.ExplodableTag))
             {
                 Explode();
             }

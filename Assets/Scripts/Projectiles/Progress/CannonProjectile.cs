@@ -19,11 +19,16 @@ namespace Progress
         {
             base.Reset(position, rotation, speedBoost, target);
 
+            ResetVelocity();
+        }
+
+        private void ResetVelocity()
+        {
             var body = GetComponent<Rigidbody>();
             if (body != null)
             {
-                body.velocity = new Vector3(0f, 0f, 0f);
-                body.angularVelocity = new Vector3(0f, 0f, 0f);
+                body.velocity = Vector3.zero;
+                body.angularVelocity = Vector3.zero;
             }
         }
     }

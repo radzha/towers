@@ -29,8 +29,6 @@ namespace Settings
         /// <summary>
         /// Прочитать настройки из редактора уровней.
         /// </summary>
-        /// <param name="monsterSettings">Набор настроек.</param>
-        /// <param name="level">Уровень.</param>
         private void ReadSettings(LevelEditor.Projectile projectile)
         {
             Speed = projectile.Speed;

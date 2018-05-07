@@ -8,7 +8,7 @@ namespace Settings
     public class Monster
     {
         /// <summary>
-        /// Количество жизней
+        /// Количество жизней.
         /// </summary>
         public int Health { get; private set; }
 
@@ -18,7 +18,7 @@ namespace Settings
         public float Speed { get; private set; }
 
         /// <summary>
-        // Дистанция характеризующая приближение к цели монстра.
+        // При приближении на эту величину цель монстра считается достигнутой.
         /// </summary>
         public float ReachDistance { get; private set; }
 

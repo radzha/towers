@@ -35,7 +35,8 @@ namespace Settings
         public Tower(TowerType type)
         {
             var towers = LevelEditor.Instance.Towers;
-            // Выбираем случайного монстра из доступных. Можно ввести веса, если потребуется.
+
+            // Выбираем первую подходящую башню из доступных
             ReadSettings(towers.FirstOrDefault(t => t.TowerType == type));
         }
     }

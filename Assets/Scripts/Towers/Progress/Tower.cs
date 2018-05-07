@@ -61,7 +61,7 @@ namespace Progress
             return _lastShotTime + _shootInterval <= Time.time;
         }
 
-        private float DistanceWith(Monster monster)
+        private float DistanceWith(Component monster)
         {
             return Vector3.Distance(transform.position, monster.transform.position);
         }

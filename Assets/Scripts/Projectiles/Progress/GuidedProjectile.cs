@@ -20,7 +20,9 @@ namespace Progress
             }
 
             var translation = _target.transform.position - transform.position;
+
             var currentSpeed = Speed * Time.deltaTime;
+
             if (translation.magnitude > currentSpeed)
             {
                 translation = translation.normalized * currentSpeed;

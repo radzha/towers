@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
+/// <summary>
+/// Вспомогательный класс для дебага.
+/// </summary>
 public static class LogExtensions
 {
     /// <summary>
@@ -135,38 +136,5 @@ public static class LogExtensions
     {
         addition = addition == null ? "" : ": " + addition;
         Debug.Log("$<color=" + color + "><b>" + text + "</b></color>" + addition);
-    }
-
-    /// <summary>
-    /// Returns text of defined color
-    /// </summary>
-    /// <param name="text"></param> Text to color
-    /// <param name="colorCode"></param> Defined color code in HEX style without '#', e.g [FE762B]
-    /// <returns></returns>
-    public static string ToColored(this string text, string colorCode)
-    {
-        return "<color=#" + colorCode + ">" + text + "</color>";
-    }
-
-    /// <summary>
-    /// Returns text of defined color
-    /// </summary>
-    /// <param name="text"></param> Text to color
-    /// <param name="colorCode"></param> Defined color code in HEX style without '#', e.g [FE762B]
-    /// <returns></returns>
-    public static string ToColored(this int text, string colorCode)
-    {
-        return ToColored(text.ToString(), colorCode);
-    }
-
-    /// <summary>
-    /// Returns text of defined color
-    /// </summary>
-    /// <param name="text"></param> Text to color
-    /// <param name="colorCode"></param> Defined color code in HEX style without '#', e.g [FE762B]
-    /// <returns></returns>
-    public static string ToColored(this float text, string colorCode)
-    {
-        return ToColored(text.ToString(CultureInfo.InvariantCulture), colorCode);
     }
 }

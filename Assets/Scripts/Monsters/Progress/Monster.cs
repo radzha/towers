@@ -98,8 +98,7 @@ namespace Progress
         {
             _color = color;
             
-            var monsterObject = gameObject;
-            var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
+            var meshRenderer = gameObject.GetComponent<MeshRenderer>();
             meshRenderer.material.color = _color;
         }
     }

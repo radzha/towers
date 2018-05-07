@@ -34,7 +34,9 @@ namespace Progress
             if (_target != null)
             {
                 MarkAsTarget(_target);
+
                 var turningSpeed = GetNeededTurningSpeed();
+
                 if (turningSpeed != null)
                 {
                     Turn((float) turningSpeed);
@@ -56,8 +58,8 @@ namespace Progress
 
         private float? GetNeededTurningSpeed()
         {
-            float timeBeforeExplode = GetTimeBeforeExplode();
-            Vector3 targetPredictedPosition = TargetPredictedPosition(timeBeforeExplode);
+            var timeBeforeExplode = GetTimeBeforeExplode();
+            var targetPredictedPosition = TargetPredictedPosition(timeBeforeExplode);
 
             var target = targetPredictedPosition - transform.position;
             var cannon = transform.rotation * Vector3.forward;
@@ -66,6 +68,7 @@ namespace Progress
             var angle = SignedAngle(cannon, target, Vector3.up);
 
             var maxAngle = _turningSpeed * Time.deltaTime;
+
             if (Mathf.Abs(angle) >= maxAngle)
             {
                 angle = maxAngle * Mathf.Sign(angle);
@@ -98,12 +101,10 @@ namespace Progress
         {
             var time = GetTimeBeforeExplode();
             var targetPosition = TargetPredictedPosition(time);
-            Debug.DrawLine(_shootPoint.position, targetPosition);
             var speed = Vector3.Distance(targetPosition, _shootPoint.position) / time;
             var projectileSpeed = LevelEditor.Instance.Projectiles.FirstOrDefault(p => p.Type == GetProjectileType())
                 .Speed;
-            var boost = speed / projectileSpeed;
-            return boost;
+            return speed / projectileSpeed;
         }
 
         // Вспомогательные функции из Unity 2017

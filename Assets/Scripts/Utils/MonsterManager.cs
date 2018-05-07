@@ -2,12 +2,29 @@
 using Progress;
 using UnityEngine;
 
+/// <summary>
+/// Менеджер, управляющий пулом монстров.
+/// </summary>
 public class MonsterManager : SingletonAuto<MonsterManager>
 {
     private readonly Stack<Monster> _pool = new Stack<Monster>();
     private readonly HashSet<Monster> _activeMonsters = new HashSet<Monster>();
 
     private Transform _monstersParent;
+    private GameObject _getParentObject;
+
+    private GameObject GetParentObject
+    {
+        get
+        {
+            if (_getParentObject == null)
+            {
+                _getParentObject = GameObject.Find("Monsters");
+            }
+
+            return _getParentObject;
+        }
+    }
 
     public void CreateMonster(Vector3 initPositon, Vector3 targetPosition)
     {
@@ -27,7 +44,7 @@ public class MonsterManager : SingletonAuto<MonsterManager>
         {
             var monsterObject = GameObject.CreatePrimitive(PrimitiveType.Capsule);
 
-            monsterObject.tag = "Explodable";
+            monsterObject.tag = Constants.ExplodableTag;
 
             SetParent(monsterObject.transform);
 
@@ -69,14 +86,18 @@ public class MonsterManager : SingletonAuto<MonsterManager>
     {
         if (_monstersParent == null)
         {
-            var o = GameObject.Find("Monsters");
-            if (o != null)
-            {
-                _monstersParent = o.transform;
-            }
+            var o = GetParentObject;
+
+            if (o != null) _monstersParent = o.transform;
         }
 
         monster.transform.SetParent(_monstersParent);
+    }
+
+    private void ShowMonster(Monster monster)
+    {
+        monster.gameObject.SetActive(true);
+        _activeMonsters.Add(monster);
     }
 
     public void HideMonster(Monster monster)
@@ -84,12 +105,6 @@ public class MonsterManager : SingletonAuto<MonsterManager>
         _activeMonsters.Remove(monster);
         monster.gameObject.SetActive(false);
         _pool.Push(monster);
-    }
-
-    private void ShowMonster(Monster monster)
-    {
-        monster.gameObject.SetActive(true);
-        _activeMonsters.Add(monster);
     }
 
     public HashSet<Monster> GetActiveMonsters()

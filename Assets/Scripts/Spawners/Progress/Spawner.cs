@@ -2,10 +2,11 @@
 
 namespace Progress
 {
+    /// <summary>
+    /// Фабрика монстров.
+    /// </summary>
     public class Spawner : MonoBehaviour
     {
-        public Settings.Spawner Settings { get; set; }
-
         private float _interval;
 
         [SerializeField] private Transform _moveTarget;
@@ -25,9 +26,9 @@ namespace Progress
         /// </summary>
         private void SettingsRead()
         {
-            Settings = new Settings.Spawner();
-            _interval = Settings.Interval;
-            _moveTarget = Settings.MoveTarget;
+            var settings = new Settings.Spawner();
+            _interval = settings.Interval;
+            _moveTarget = settings.MoveTarget;
         }
 
         private void Update()
