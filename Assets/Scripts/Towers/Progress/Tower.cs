@@ -9,7 +9,7 @@ namespace Progress
         protected float _turningSpeed;
         private Color _targetColor;
 
-        private float _lastShotTime = -0.5f;
+        private float _lastShotTime = float.MinValue;
 
         protected abstract Settings.Tower.TowerType GetTowerType();
         protected abstract Vector3 GetShootPosition();
@@ -66,6 +66,12 @@ namespace Progress
             return Vector3.Distance(transform.position, monster.transform.position);
         }
 
+        /// <summary>
+        /// Находит ближайшего монстра.
+        /// Можно реализовать и что-то более продвинутое,
+        /// например не выбирать монстра, который спасется раньше, чем долетит снаряд.
+        /// </summary>
+        /// <returns></returns>
         protected Monster GetNearestMonster()
         {
             Monster nearest = null;

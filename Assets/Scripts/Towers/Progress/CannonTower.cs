@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace Progress
@@ -8,7 +7,6 @@ namespace Progress
     {
         [SerializeField] private Transform _shootPoint;
 
-        private const float TurningEpsilon = 0.05f;
         private Monster _target;
 
         protected override Settings.Tower.TowerType GetTowerType()
@@ -30,12 +28,15 @@ namespace Progress
         {
             if (_target != null && !_target.IsAlive()) _target = null;
 
-            if (_target == null) _target = GetNearestMonster();
+            if (_target == null)
+            {
+                _target = GetNearestMonster();
+
+                if (_target != null) MarkAsTarget(_target);
+            }
 
             if (_target != null)
             {
-                MarkAsTarget(_target);
-
                 bool isFinalTurn;
 
                 var turningAngle = GetNeededTurningAngle(out isFinalTurn);
@@ -61,7 +62,7 @@ namespace Progress
         /// <returns>Угол в градусах</returns>
         private float GetNeededTurningAngle(out bool isFinalTurn)
         {
-            var timeBeforeExplode = GetTimeBeforeExplode();
+            var timeBeforeExplode = GetTimeBeforeExplode;
             var targetPredictedPosition = TargetPredictedPosition(timeBeforeExplode);
 
             var target = targetPredictedPosition - transform.position;
@@ -89,26 +90,47 @@ namespace Progress
         {
             var current = _target.gameObject.transform.position;
             var direction = _target.TargetPosition - current;
-            var shift = direction.normalized * timeBeforeExplode;
+            var shift = direction.normalized * _target.Speed * timeBeforeExplode;
+
+            Debug.DrawLine(current, current + shift, Color.green);
+
             return current + shift;
         }
 
-        private float GetTimeBeforeExplode()
+        private float _getTimeBeforeExplode = -1f;
+
+        /// <summary>
+        /// Время до взрыва ядра от свободного падения на пол.
+        /// </summary>
+        private float GetTimeBeforeExplode
         {
-            var shotHeight = _shootPoint.position.y;
-            var gravity = 9.81f;
-            var time = Mathf.Sqrt(shotHeight * 2f / gravity);
-            return time;
+            get
+            {
+                if (_getTimeBeforeExplode < 0f)
+                {
+                    var ballSize = GetProjectileSettings().Prefab.transform.localScale.y;
+                    var shotHeight = _shootPoint.position.y - ballSize;
+                    var gravity = Mathf.Abs(Physics.gravity.y);
+                    _getTimeBeforeExplode = Mathf.Sqrt(shotHeight * 2f / gravity);
+                }
+
+                return _getTimeBeforeExplode;
+            }
         }
 
         private float GetSpeedBoost()
         {
-            var time = GetTimeBeforeExplode();
+            var time = GetTimeBeforeExplode;
             var targetPosition = TargetPredictedPosition(time);
             var speed = Vector3.Distance(targetPosition, _shootPoint.position) / time;
-            var projectileSpeed = LevelEditor.Instance.Projectiles.FirstOrDefault(p => p.Type == GetProjectileType())
+            var projectileSpeed = GetProjectileSettings()
                 .Speed;
             return speed / projectileSpeed;
+        }
+
+        private LevelEditor.Projectile GetProjectileSettings()
+        {
+            return LevelEditor.Instance.Projectiles.FirstOrDefault(p => p.Type == GetProjectileType());
         }
 
         // Вспомогательные функции из Unity 2017

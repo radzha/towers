@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Progress
 {
@@ -8,7 +9,7 @@ namespace Progress
         private float _health;
 
         // Скорость.
-        private float _speed;
+        public float Speed { get; private set; }
 
         // Дистанция характеризующая приближение к цели монстра.
         private float _reachDistance;
@@ -18,6 +19,8 @@ namespace Progress
 
         // Цель монстра.
         public Vector3 TargetPosition { get; set; }
+
+        private const float DamagingShowPeriod = 0.2f;
 
         private void Awake()
         {
@@ -34,7 +37,7 @@ namespace Progress
         {
             var settings = new Settings.Monster();
             _health = settings.Health;
-            _speed = settings.Speed;
+            Speed = settings.Speed;
             _reachDistance = settings.ReachDistance;
             _color = settings.MonsterColor;
         }
@@ -50,7 +53,7 @@ namespace Progress
             var translation = TargetPosition - transform.position;
 
 
-            var currentSpeed = _speed * Time.deltaTime;
+            var currentSpeed = Speed * Time.deltaTime;
             if (translation.magnitude > currentSpeed)
             {
                 translation = translation.normalized * currentSpeed;
@@ -82,12 +85,33 @@ namespace Progress
             {
                 Die(type);
             }
+            else
+            {
+                "Monster damaged".Log(type + " / " + damage);
+                StartCoroutine(ChangeColor());
+            }
+        }
+
+        private IEnumerator ChangeColor()
+        {
+            SetColor(Color.white);
+
+            yield return new WaitForSeconds(DamagingShowPeriod);
+
+            if (gameObject.activeSelf) SetColor(_color);
         }
 
         public void Die(Settings.Projectile.Type? type)
         {
-            "Monster died".CLogRed(type);
             MonsterManager.Instance.HideMonster(this);
+            if (type != null)
+            {
+                "Monster killed".CLog(type);
+            }
+            else
+            {
+                "Monster escaped".CLogRed(type);
+            }
         }
 
         public bool IsAlive()
@@ -98,9 +122,13 @@ namespace Progress
         public void MarkAsTarget(Color color)
         {
             _color = color;
+            SetColor(color);
+        }
 
+        private void SetColor(Color color)
+        {
             var meshRenderer = gameObject.GetComponent<MeshRenderer>();
-            meshRenderer.material.color = _color;
+            meshRenderer.material.color = color;
         }
     }
 }
