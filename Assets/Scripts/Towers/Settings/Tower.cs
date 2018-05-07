@@ -11,10 +11,11 @@ namespace Settings
             Cannon
         }
 
-        public Settings.Tower.TowerType Type { get; private set; }
+        private TowerType Type { get; set; }
         public float ShootInterval { get; private set; }
         public float AttackRange { get; private set; }
         public float TurningSpeed { get; private set; }
+        public Color TargetColor { get; private set; }
 
         /// <summary>
         /// Прочитать настройки из редактора уровней.
@@ -25,6 +26,7 @@ namespace Settings
             ShootInterval = tower.ShootInterval;
             AttackRange = tower.AttackRange;
             TurningSpeed = tower.TurningSpeed;
+            TargetColor = tower.TargetColor;
         }
 
         /// <summary>

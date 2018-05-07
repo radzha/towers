@@ -21,36 +21,20 @@ public class MonsterManager : SingletonAuto<MonsterManager>
         if (_pool.Count > 0)
         {
             monster = _pool.Pop();
-            monster.Reset();
-
-            var monsterObject = monster.gameObject;
-            monsterObject.transform.position = initPositon;
-            monsterObject.tag = "Explodable";
-            
-            var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
-            monster.TargetPosition = targetPosition;
-            meshRenderer.material.color = monster.GetColor();
+            InitMonster(monster, initPositon, targetPosition);
         }
         else
         {
             var monsterObject = GameObject.CreatePrimitive(PrimitiveType.Capsule);
 
+            monsterObject.tag = "Explodable";
+
             SetParent(monsterObject.transform);
 
-            var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
+            AddRigidBody(monsterObject);
 
-            var body = monsterObject.AddComponent<Rigidbody>();
-            body.useGravity = false;
-            body.angularDrag = float.PositiveInfinity;
-            body.drag = float.PositiveInfinity;
-            body.constraints = RigidbodyConstraints.FreezePositionY
-                               | RigidbodyConstraints.FreezeRotationX
-                               | RigidbodyConstraints.FreezeRotationZ;
-
-            monsterObject.transform.position = initPositon;
             monster = monsterObject.AddComponent<Monster>();
-            monster.TargetPosition = targetPosition;
-            meshRenderer.material.color = monster.GetColor();
+            InitMonster(monster, initPositon, targetPosition);
         }
 
         ShowMonster(monster);
@@ -58,7 +42,30 @@ public class MonsterManager : SingletonAuto<MonsterManager>
         return monster;
     }
 
-    private void SetParent(Transform monster)
+    private static void InitMonster(Monster monster, Vector3 initPositon, Vector3 targetPosition)
+    {
+        monster.Reset();
+
+        var monsterObject = monster.gameObject;
+        monsterObject.transform.position = initPositon;
+
+        var meshRenderer = monsterObject.GetComponent<MeshRenderer>();
+        monster.TargetPosition = targetPosition;
+        meshRenderer.material.color = monster.GetColor();
+    }
+
+    private static void AddRigidBody(GameObject monsterObject)
+    {
+        var body = monsterObject.AddComponent<Rigidbody>();
+        body.useGravity = false;
+        body.angularDrag = float.PositiveInfinity;
+        body.drag = float.PositiveInfinity;
+        body.constraints = RigidbodyConstraints.FreezePositionY
+                           | RigidbodyConstraints.FreezeRotationX
+                           | RigidbodyConstraints.FreezeRotationZ;
+    }
+
+    private void SetParent(Component monster)
     {
         if (_monstersParent == null)
         {

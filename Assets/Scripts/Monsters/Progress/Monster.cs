@@ -101,7 +101,7 @@ namespace Progress
             return MonsterManager.Instance.GetActiveMonsters().Contains(this);
         }
 
-        public void SetColor(Color color)
+        public void MarkAsTarget(Color color)
         {
             _color = color;
             

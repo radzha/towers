@@ -34,6 +34,7 @@ public class LevelEditor : SingletonSimple<LevelEditor>
         public float ShootInterval;
         public float AttackRange;
         public float TurningSpeed;
+        public Color TargetColor;
     }
     
     // Настройки снарядов.

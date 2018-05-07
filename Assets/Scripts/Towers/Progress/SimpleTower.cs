@@ -24,9 +24,13 @@ namespace Progress
         {
             if (CanShoot())
             {
-                var target = GetNearestMonster(_range);
+                var target = GetNearestMonster();
 
-                if (target != null) MakeShot(target);
+                if (target != null)
+                {
+                    MarkAsTarget(target);
+                    MakeShot(target);
+                }
             }
         }
     }

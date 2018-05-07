@@ -5,8 +5,9 @@ namespace Progress
     public abstract class Tower : MonoBehaviour
     {
         private float _shootInterval;
-        protected float _range;
+        private float _range;
         protected float _turningSpeed;
+        private Color _targetColor;
 
         private float _lastShotTime = -0.5f;
 
@@ -32,6 +33,7 @@ namespace Progress
             _shootInterval = settings.ShootInterval;
             _range = settings.AttackRange;
             _turningSpeed = settings.TurningSpeed;
+            _targetColor = settings.TargetColor;
         }
 
         protected void MakeShot(Monster monster, float speedBoost = 1f)
@@ -40,11 +42,6 @@ namespace Progress
                 monster);
 
             _lastShotTime = Time.time;
-        }
-
-        protected virtual void HandleProjectile(GameObject projectile, Monster monster)
-        {
-            //do nothing
         }
 
         protected Settings.Projectile.Type GetProjectileType()
@@ -64,19 +61,19 @@ namespace Progress
             return _lastShotTime + _shootInterval <= Time.time;
         }
 
-        protected float DistanceWith(Monster monster)
+        private float DistanceWith(Monster monster)
         {
             return Vector3.Distance(transform.position, monster.transform.position);
         }
 
-        protected Monster GetNearestMonster(float range)
+        protected Monster GetNearestMonster()
         {
             Monster nearest = null;
             var minDist = float.MaxValue;
             foreach (var monster in MonsterManager.Instance.GetActiveMonsters())
             {
                 var distance = DistanceWith(monster);
-                if (distance <= range && distance <= minDist)
+                if (distance <= _range && distance <= minDist)
                 {
                     nearest = monster;
                     minDist = distance;
@@ -84,6 +81,11 @@ namespace Progress
             }
 
             return nearest;
+        }
+
+        protected void MarkAsTarget(Monster target)
+        {
+            target.MarkAsTarget(_targetColor);
         }
     }
 }

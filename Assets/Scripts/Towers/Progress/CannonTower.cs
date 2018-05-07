@@ -29,11 +29,11 @@ namespace Progress
         {
             if (_target != null && !_target.IsAlive()) _target = null;
 
-            if (_target == null) _target = GetNearestMonster(_range);
+            if (_target == null) _target = GetNearestMonster();
 
             if (_target != null)
             {
-                _target.SetColor(Color.cyan);
+                MarkAsTarget(_target);
                 var turningSpeed = GetNeededTurningSpeed();
                 if (turningSpeed != null)
                 {
