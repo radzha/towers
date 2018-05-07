@@ -10,11 +10,6 @@ public interface IDamagable
     float Health();
 
     /// <summary>
-    /// Максимум здоровья.
-    /// </summary>
-    float MaxHealth();
-
-    /// <summary>
     /// Процедуры в случае смерти монстра.
     /// </summary>
     void Die();

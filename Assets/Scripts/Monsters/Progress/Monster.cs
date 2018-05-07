@@ -4,21 +4,19 @@ namespace Progress
 {
     public class Monster : MonoBehaviour, IDamagable
     {
-        // Набор настроек монстра.
-        public Settings.Monster Settings { get; set; }
-
         // Текущий показатель жизни.
         private float _health;
 
         // Скорость.
         private float _speed;
 
-        // Дистанция достажения цели.
-        private float _reachDistance = 0.3f;
+        // Дистанция характеризующая приближение к цели монстра.
+        private float _reachDistance;
 
-        // Основной цвет.
+        // Основной цвет неатакованного монстра.
         private Color _color;
 
+        // Цель монстра.
         public Vector3 TargetPosition { get; set; }
 
         private void Awake()
@@ -34,11 +32,11 @@ namespace Progress
         /// </summary>
         private void SettingsRead()
         {
-            Settings = new Settings.Monster();
-            _health = Settings.Health;
-            _speed = Settings.Speed;
-            _reachDistance = Settings.ReachDistance;
-            _color = Settings.MonsterColor;
+            var settings = new Settings.Monster();
+            _health = settings.Health;
+            _speed = settings.Speed;
+            _reachDistance = settings.ReachDistance;
+            _color = settings.MonsterColor;
         }
 
         private void Update()
@@ -69,11 +67,6 @@ namespace Progress
         public float Health()
         {
             return _health;
-        }
-
-        public float MaxHealth()
-        {
-            return Settings.Health;
         }
 
         public Color GetColor()

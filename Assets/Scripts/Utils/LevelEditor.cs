@@ -6,10 +6,13 @@ using UnityEngine;
 /// </summary>
 public class LevelEditor : SingletonSimple<LevelEditor>
 {
+    /// <summary>
+    /// Ивент, сообщающий подписчикам, что настройки изменились и нужно их перегрузить.
+    /// </summary>
     public event Action OnSettingsUpdated;
 
     // Настройки монстров.
-    [System.Serializable]
+    [Serializable]
     public struct MonsterSettings
     {
         public int Health;
@@ -19,7 +22,7 @@ public class LevelEditor : SingletonSimple<LevelEditor>
     }
 
     // Настройки фабрики монстров.
-    [System.Serializable]
+    [Serializable]
     public struct Spawner
     {
         public float Interval;
@@ -27,7 +30,7 @@ public class LevelEditor : SingletonSimple<LevelEditor>
     }
 
     // Настройки башень.
-    [System.Serializable]
+    [Serializable]
     public struct Tower
     {
         public Settings.Tower.TowerType TowerType;
@@ -38,7 +41,7 @@ public class LevelEditor : SingletonSimple<LevelEditor>
     }
     
     // Настройки снарядов.
-    [System.Serializable]
+    [Serializable]
     public struct Projectile
     {
         public Settings.Projectile.Type Type;

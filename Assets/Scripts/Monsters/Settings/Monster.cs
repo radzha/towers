@@ -18,7 +18,7 @@ namespace Settings
         public float Speed { get; private set; }
 
         /// <summary>
-        /// Дистанция поражения монстра.
+        // Дистанция характеризующая приближение к цели монстра.
         /// </summary>
         public float ReachDistance { get; private set; }
 
@@ -31,7 +31,7 @@ namespace Settings
         /// Прочитать настройки из редактора уровней.
         /// </summary>
         /// <param name="monsterSettings">Набор настроек.</param>
-        /// <param name="level">Уровень.</param>
+        /// <param name="level">Уровень/вид монстра.</param>
         private void ReadSettings(LevelEditor.MonsterSettings[] monsterSettings, int level)
         {
             var monster = monsterSettings[level];
