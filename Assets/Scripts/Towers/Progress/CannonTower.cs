@@ -23,7 +23,6 @@ namespace Progress
         protected override Quaternion GetShootRotation()
         {
             return _shootPoint.rotation;
-//            return Quaternion.identity;
         }
 
         private void Update()
@@ -101,12 +100,9 @@ namespace Progress
             var targetPosition = TargetPredictedPosition(time);
             Debug.DrawLine(_shootPoint.position, targetPosition);
             var speed = Vector3.Distance(targetPosition, _shootPoint.position) / time;
-            "time1".CLog(time);
-            "speed".CLogBlue(speed);
             var projectileSpeed = LevelEditor.Instance.Projectiles.FirstOrDefault(p => p.Type == GetProjectileType())
                 .Speed;
             var boost = speed / projectileSpeed;
-            boost.CLogBlue();
             return boost;
         }
 

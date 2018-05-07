@@ -20,12 +20,12 @@ namespace Progress
             return Quaternion.identity;
         }
 
-        protected override void HandleProjectile(GameObject projectile, Monster monster)
-        {
-            var projectileBeh = projectile.GetComponent<GuidedProjectile>();
+//        protected override void HandleProjectile(GameObject projectile, Monster monster)
+//        {
+//            var projectileBeh = projectile.GetComponent<GuidedProjectile>();
 
-            projectileBeh.Target = monster.gameObject;
-        }
+//            projectileBeh.Target = monster.gameObject;
+//        }
 
         private void Update()
         {

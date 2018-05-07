@@ -4,22 +4,22 @@ namespace Progress
 {
     public class GuidedProjectile : Projectile
     {
-        public GameObject Target;
+        private GameObject _target;
 
-        protected override Settings.Projectile.Type GetProjectileType()
+        public override Settings.Projectile.Type GetProjectileType()
         {
             return Settings.Projectile.Type.Crystal;
         }
 
         private void Update()
         {
-            if (Target == null)
+            if (_target == null)
             {
-                Destroy(gameObject);
+                Explode();
                 return;
             }
 
-            var translation = Target.transform.position - transform.position;
+            var translation = _target.transform.position - transform.position;
             var currentSpeed = Speed * Time.deltaTime;
             if (translation.magnitude > currentSpeed)
             {
@@ -27,6 +27,12 @@ namespace Progress
             }
 
             transform.Translate(translation);
+        }
+
+        public override void Reset(Vector3 position, Quaternion rotation, float speedBoost, GameObject target)
+        {
+            base.Reset(position, rotation, speedBoost, target);
+            _target = target;
         }
     }
 }

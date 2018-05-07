@@ -37,9 +37,10 @@ namespace Progress
 
         protected void MakeShot(Monster monster, float speedBoost = 1f)
         {
-            var projectile = Projectile.Create(GetProjectileType(), GetShootPosition(), GetShootRotation(), speedBoost);
+            var projectile = ProjectileManager.Instance.GetNext(GetProjectileType(), GetShootPosition(),
+                GetShootRotation(), speedBoost, monster);
 
-            HandleProjectile(projectile, monster);
+//            HandleProjectile(projectile, monster);
 
             _lastShotTime = Time.time;
         }

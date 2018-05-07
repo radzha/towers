@@ -1,0 +1,62 @@
+﻿using System.Collections.Generic;
+using Progress;
+using UnityEngine;
+
+public class ProjectileManager : SingletonAuto<ProjectileManager>
+{
+    private readonly Dictionary<Settings.Projectile.Type, Stack<Projectile>> _poolDict =
+        new Dictionary<Settings.Projectile.Type, Stack<Projectile>>();
+
+    public GameObject GetNext(Settings.Projectile.Type type, Vector3 position, Quaternion rotation, float speedBoost,
+        Monster monster)
+    {
+        Projectile projectile;
+
+        var pool = GetPool(_poolDict, type);
+
+        if (pool.Count > 0)
+        {
+            projectile = pool.Pop();
+        }
+        else
+        {
+            projectile = Projectile.Create(type, position, rotation, speedBoost);
+            "Created".CLog(Time.time + "\t" + projectile.GetHashCode());
+        }
+
+        projectile.Reset(position, rotation, speedBoost, monster.gameObject);
+
+        Show(projectile);
+
+        return projectile.gameObject;
+    }
+
+    private Stack<Projectile> GetPool(Dictionary<Settings.Projectile.Type, Stack<Projectile>> poolDict,
+        Settings.Projectile.Type type)
+    {
+        Stack<Projectile> pool;
+        poolDict.TryGetValue(type, out pool);
+
+        if (pool == null)
+        {
+            pool = new Stack<Projectile>();
+            poolDict.Add(type, pool);
+        }
+
+        return pool;
+    }
+
+    public void Hide(Projectile projectile)
+    {
+        projectile.gameObject.SetActive(false);
+        GetPool(_poolDict, projectile.GetProjectileType()).Push(projectile);
+        if (projectile.GetProjectileType() == Settings.Projectile.Type.Ball)
+        {
+        }
+    }
+
+    private void Show(Projectile projectile)
+    {
+        projectile.gameObject.SetActive(true);
+    }
+}
