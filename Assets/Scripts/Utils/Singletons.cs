@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SingletonAuto<T> : MonoBehaviour where T : new()
+public class SingletonAuto<T> where T : new()
 {
     private static T _instance;
 

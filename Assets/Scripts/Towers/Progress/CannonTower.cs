@@ -36,28 +36,30 @@ namespace Progress
             {
                 MarkAsTarget(_target);
 
-                var turningSpeed = GetNeededTurningSpeed();
+                bool isFinalTurn;
 
-                if (turningSpeed != null)
+                var turningAngle = GetNeededTurningAngle(out isFinalTurn);
+
+                Turn(turningAngle);
+
+                if (isFinalTurn && CanShoot())
                 {
-                    Turn((float) turningSpeed);
-                }
-                else
-                {
-                    if (CanShoot())
-                    {
-                        MakeShot(_target, GetSpeedBoost());
-                    }
+                    MakeShot(_target, GetSpeedBoost());
                 }
             }
         }
 
-        private void Turn(float turningSpeed)
+        private void Turn(float turningAngle)
         {
-            transform.Rotate(Vector3.up, turningSpeed);
+            transform.Rotate(Vector3.up, turningAngle);
         }
 
-        private float? GetNeededTurningSpeed()
+        /// <summary>
+        /// Вычисляет поворот на данном кадре.
+        /// </summary>
+        /// <param name="isFinalTurn"> Если поворот последний, то true </param>
+        /// <returns>Угол в градусах</returns>
+        private float GetNeededTurningAngle(out bool isFinalTurn)
         {
             var timeBeforeExplode = GetTimeBeforeExplode();
             var targetPredictedPosition = TargetPredictedPosition(timeBeforeExplode);
@@ -70,13 +72,14 @@ namespace Progress
 
             var maxAngle = _turningSpeed * Time.deltaTime;
 
-            if (Mathf.Abs(angle) >= maxAngle)
+            if (Mathf.Abs(angle) > maxAngle)
             {
                 angle = maxAngle * Mathf.Sign(angle);
+                isFinalTurn = false;
             }
-            else if (Mathf.Abs(angle) < TurningEpsilon)
+            else
             {
-                return null;
+                isFinalTurn = true;
             }
 
             return angle;
