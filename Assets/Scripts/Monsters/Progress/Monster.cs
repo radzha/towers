@@ -23,7 +23,7 @@ namespace Progress
         {
             LevelEditor.Instance.OnSettingsUpdated -= SettingsRead;
             LevelEditor.Instance.OnSettingsUpdated += SettingsRead;
-            
+
             Reset();
         }
 
@@ -43,13 +43,13 @@ namespace Progress
         {
             if (Vector3.Distance(transform.position, TargetPosition) <= _reachDistance)
             {
-                Die();
+                Die(null);
                 return;
             }
 
             var translation = TargetPosition - transform.position;
-            
-            
+
+
             var currentSpeed = _speed * Time.deltaTime;
             if (translation.magnitude > currentSpeed)
             {
@@ -74,18 +74,19 @@ namespace Progress
             return _color;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Settings.Projectile.Type type)
         {
             _health -= damage;
-            
+
             if (_health <= 0)
             {
-                Die();
+                Die(type);
             }
         }
 
-        public void Die()
+        public void Die(Settings.Projectile.Type? type)
         {
+            "Monster died".CLogRed(type);
             MonsterManager.Instance.HideMonster(this);
         }
 
@@ -97,7 +98,7 @@ namespace Progress
         public void MarkAsTarget(Color color)
         {
             _color = color;
-            
+
             var meshRenderer = gameObject.GetComponent<MeshRenderer>();
             meshRenderer.material.color = _color;
         }

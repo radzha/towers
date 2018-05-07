@@ -42,7 +42,7 @@ namespace Progress
             var monster = other.gameObject.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.TakeDamage(_damage);
+                monster.TakeDamage(_damage, GetProjectileType());
             }
 
             if (other.gameObject.CompareTag(Constants.ExplodableTag))

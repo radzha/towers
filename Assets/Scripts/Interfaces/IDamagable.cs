@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using Progress;
+
+/// <summary>
 /// Интерфейс, позволяющий принимать урон.
 /// Будет полезен, если будут разные виды объектов, повреждаемые снарядами.
 /// </summary>
@@ -12,7 +14,8 @@ public interface IDamagable
     /// <summary>
     /// Процедуры в случае смерти монстра.
     /// </summary>
-    void Die();
+    /// <param name="byWho">Причина смерти.</param>
+    void Die(Settings.Projectile.Type? byWho);
 
     /// <summary>
     /// Жив ли монстр.
@@ -23,5 +26,6 @@ public interface IDamagable
     /// Принять урон.
     /// </summary>
     /// <param name="damage">Сколько урона.</param>
-    void TakeDamage(float damage);
+    /// <param name="byWho">Каким снарядом нанесён урон.</param>
+    void TakeDamage(float damage, Settings.Projectile.Type byWho);
 }
