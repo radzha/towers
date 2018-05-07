@@ -29,13 +29,11 @@ namespace Progress
             _damage = settings.Damage;
         }
 
-        public static Projectile Create(Settings.Projectile.Type type, Vector3 position, Quaternion rotation,
-            float speedBoost)
+        public static Projectile Create(Settings.Projectile.Type type)
         {
             var prefab = LevelEditor.Instance.Projectiles.FirstOrDefault(p => p.Type == type).Prefab;
-            var o = Instantiate(prefab, position, rotation, LevelEditor.Instance.ProjectilesHolder);
+            var o = Instantiate(prefab, LevelEditor.Instance.ProjectilesHolder);
             var projectile = o.GetComponent<Projectile>();
-            projectile.SpeedBoost = speedBoost;
             return projectile;
         }
 
@@ -65,6 +63,5 @@ namespace Progress
             SpeedBoost = speedBoost;
             SettingsRead();
         }
-
     }
 }

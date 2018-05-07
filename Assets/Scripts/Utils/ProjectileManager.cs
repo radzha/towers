@@ -10,19 +10,9 @@ public class ProjectileManager : SingletonAuto<ProjectileManager>
     public GameObject GetNext(Settings.Projectile.Type type, Vector3 position, Quaternion rotation, float speedBoost,
         Monster monster)
     {
-        Projectile projectile;
-
         var pool = GetPool(_poolDict, type);
 
-        if (pool.Count > 0)
-        {
-            projectile = pool.Pop();
-        }
-        else
-        {
-            projectile = Projectile.Create(type, position, rotation, speedBoost);
-            "Created".CLog(Time.time + "\t" + projectile.GetHashCode());
-        }
+        var projectile = pool.Count > 0 ? pool.Pop() : Projectile.Create(type);
 
         projectile.Reset(position, rotation, speedBoost, monster.gameObject);
 
@@ -46,17 +36,14 @@ public class ProjectileManager : SingletonAuto<ProjectileManager>
         return pool;
     }
 
+    private static void Show(Component projectile)
+    {
+        projectile.gameObject.SetActive(true);
+    }
+
     public void Hide(Projectile projectile)
     {
         projectile.gameObject.SetActive(false);
         GetPool(_poolDict, projectile.GetProjectileType()).Push(projectile);
-        if (projectile.GetProjectileType() == Settings.Projectile.Type.Ball)
-        {
-        }
-    }
-
-    private void Show(Projectile projectile)
-    {
-        projectile.gameObject.SetActive(true);
     }
 }
