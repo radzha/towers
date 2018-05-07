@@ -9,6 +9,7 @@ namespace Progress
     {
         protected float Speed;
         private float _damage;
+        public float SpeedBoost = 1f;
 
         protected abstract Settings.Projectile.Type GetProjectileType();
 
@@ -30,10 +31,14 @@ namespace Progress
             _damage = settings.Damage;
         }
 
-        public static GameObject Create(Settings.Projectile.Type type, Vector3 position, Quaternion rotation)
+        public static GameObject Create(Settings.Projectile.Type type, Vector3 position, Quaternion rotation,
+            float speedBoost)
         {
             var prefab = LevelEditor.Instance.Projectiles.FirstOrDefault(p => p.Type == type).Prefab;
-            return Instantiate(prefab, position, rotation, LevelEditor.Instance.ProjectilesHolder);
+            var o = Instantiate(prefab, position, rotation, LevelEditor.Instance.ProjectilesHolder);
+            var projectile = o.GetComponent<Projectile>();
+            projectile.SpeedBoost = speedBoost;
+            return o;
         }
 
         private void OnTriggerEnter(Collider other)

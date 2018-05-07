@@ -86,7 +86,7 @@ public class MonsterManager : SingletonAuto<MonsterManager>
         _activeMonsters.Add(monster);
     }
 
-    public IEnumerable<Monster> GetActiveMonsters()
+    public HashSet<Monster> GetActiveMonsters()
     {
         return _activeMonsters;
     }

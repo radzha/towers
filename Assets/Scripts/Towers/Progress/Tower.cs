@@ -5,8 +5,9 @@ namespace Progress
 {
     public abstract class Tower : MonoBehaviour
     {
-        [SerializeField] private float _shootInterval = 0.5f;
-        [SerializeField] private float _range = 4f;
+        private float _shootInterval;
+        protected float _range;
+        protected float _turningSpeed;
 
         private float _lastShotTime = -0.5f;
 
@@ -31,26 +32,12 @@ namespace Progress
 
             _shootInterval = settings.ShootInterval;
             _range = settings.AttackRange;
+            _turningSpeed = settings.TurningSpeed;
         }
 
-        private void Update()
+        protected void MakeShot(Monster monster, float speedBoost = 1f)
         {
-            if (_lastShotTime + _shootInterval <= Time.time)
-            {
-                foreach (var monster in MonsterManager.Instance.GetActiveMonsters())
-                {
-                    if (Vector3.Distance(transform.position, monster.transform.position) <= _range)
-                    {
-                        MakeShot(monster);
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void MakeShot(Monster monster)
-        {
-            var projectile = Projectile.Create(GetProjectileType(), GetShootPosition(), GetShootRotation());
+            var projectile = Projectile.Create(GetProjectileType(), GetShootPosition(), GetShootRotation(), speedBoost);
 
             HandleProjectile(projectile, monster);
 
@@ -62,7 +49,7 @@ namespace Progress
             //do nothing
         }
 
-        private Settings.Projectile.Type GetProjectileType()
+        protected Settings.Projectile.Type GetProjectileType()
         {
             switch (GetTowerType())
             {
@@ -72,6 +59,16 @@ namespace Progress
                 default:
                     return Settings.Projectile.Type.Ball;
             }
+        }
+
+        protected bool CanShoot()
+        {
+            return _lastShotTime + _shootInterval <= Time.time;
+        }
+
+        protected float DistanceWith(Monster monster)
+        {
+            return Vector3.Distance(transform.position, monster.transform.position);
         }
     }
 }

@@ -33,6 +33,7 @@ public class LevelEditor : SingletonSimple<LevelEditor>
         public Settings.Tower.TowerType TowerType;
         public float ShootInterval;
         public float AttackRange;
+        public float TurningSpeed;
     }
     
     // Настройки снарядов.

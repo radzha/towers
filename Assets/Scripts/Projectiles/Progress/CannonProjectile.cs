@@ -1,4 +1,6 @@
-﻿namespace Progress
+﻿using UnityEngine;
+
+namespace Progress
 {
     public class CannonProjectile : Projectile
     {
@@ -9,8 +11,8 @@
         
         private void Update()
         {
-            var translation = transform.forward * Speed;
-            transform.Translate(translation);
+            var translation = transform.forward * Speed * SpeedBoost * Time.deltaTime;
+            transform.Translate(translation, Space.World);
         }
     }
 }

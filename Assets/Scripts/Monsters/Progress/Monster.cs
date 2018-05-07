@@ -19,7 +19,7 @@ namespace Progress
         // Основной цвет.
         private Color _color;
 
-        public Vector3 TargetPosition { private get; set; }
+        public Vector3 TargetPosition { get; set; }
 
         private void Awake()
         {
@@ -82,7 +82,7 @@ namespace Progress
         {
             _health -= damage;
             
-            if (_health < 0)
+            if (_health <= 0)
             {
                 Die();
             }
@@ -93,9 +93,9 @@ namespace Progress
             MonsterManager.Instance.HideMonster(this);
         }
 
-        public bool IsDead()
+        public bool IsAlive()
         {
-            return _health > 0;
+            return MonsterManager.Instance.GetActiveMonsters().Contains(this);
         }
     }
 }

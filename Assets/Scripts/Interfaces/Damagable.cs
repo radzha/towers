@@ -18,9 +18,9 @@ public interface Damagable {
 	void Die();
 
 	/// <summary>
-	/// Жив ли юнит или здание.
+	/// Жив ли объект.
 	/// </summary>
-	bool IsDead();
+	bool IsAlive();
 
 	/// <summary>
 	/// Принять урон.

@@ -14,6 +14,7 @@ namespace Settings
         public Settings.Tower.TowerType Type { get; private set; }
         public float ShootInterval { get; private set; }
         public float AttackRange { get; private set; }
+        public float TurningSpeed { get; private set; }
 
         /// <summary>
         /// Прочитать настройки из редактора уровней.
@@ -23,6 +24,7 @@ namespace Settings
             Type = tower.TowerType;
             ShootInterval = tower.ShootInterval;
             AttackRange = tower.AttackRange;
+            TurningSpeed = tower.TurningSpeed;
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ namespace Progress
 
         private void Update()
         {
-            if (Time.time > _lastSpawnTime + _interval)
+            if (Time.time > _lastSpawnTime + _interval || _lastSpawnTime < 0)
             {
                 MonsterManager.Instance.CreateMonster(transform.position, _moveTarget.position);
                 _lastSpawnTime = Time.time;

@@ -26,5 +26,20 @@ namespace Progress
 
             projectileBeh.Target = monster.gameObject;
         }
+
+        private void Update()
+        {
+            if (CanShoot())
+            {
+                foreach (var monster in MonsterManager.Instance.GetActiveMonsters())
+                {
+                    if (DistanceWith(monster) <= _range)
+                    {
+                        MakeShot(monster);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
