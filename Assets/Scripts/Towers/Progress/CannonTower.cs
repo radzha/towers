@@ -29,7 +29,7 @@ namespace Progress
         {
             if (_target != null && !_target.IsAlive()) _target = null;
 
-            if (_target == null) _target = GetNearestMonster();
+            if (_target == null) _target = GetNearestMonster(_range);
 
             if (_target != null)
             {
@@ -104,22 +104,6 @@ namespace Progress
                 .Speed;
             var boost = speed / projectileSpeed;
             return boost;
-        }
-
-
-        private Monster GetNearestMonster()
-        {
-            Monster nearest = null;
-            var minDist = float.MaxValue;
-            foreach (var monster in MonsterManager.Instance.GetActiveMonsters())
-            {
-                if (DistanceWith(monster) <= minDist)
-                {
-                    nearest = monster;
-                }
-            }
-
-            return nearest;
         }
 
         // Вспомогательные функции из Unity 2017

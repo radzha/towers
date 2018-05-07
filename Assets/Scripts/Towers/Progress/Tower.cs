@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Progress
 {
@@ -37,10 +36,8 @@ namespace Progress
 
         protected void MakeShot(Monster monster, float speedBoost = 1f)
         {
-            var projectile = ProjectileManager.Instance.GetNext(GetProjectileType(), GetShootPosition(),
-                GetShootRotation(), speedBoost, monster);
-
-//            HandleProjectile(projectile, monster);
+            ProjectileManager.Instance.GetNext(GetProjectileType(), GetShootPosition(), GetShootRotation(), speedBoost,
+                monster);
 
             _lastShotTime = Time.time;
         }
@@ -70,6 +67,23 @@ namespace Progress
         protected float DistanceWith(Monster monster)
         {
             return Vector3.Distance(transform.position, monster.transform.position);
+        }
+
+        protected Monster GetNearestMonster(float range)
+        {
+            Monster nearest = null;
+            var minDist = float.MaxValue;
+            foreach (var monster in MonsterManager.Instance.GetActiveMonsters())
+            {
+                var distance = DistanceWith(monster);
+                if (distance <= range && distance <= minDist)
+                {
+                    nearest = monster;
+                    minDist = distance;
+                }
+            }
+
+            return nearest;
         }
     }
 }

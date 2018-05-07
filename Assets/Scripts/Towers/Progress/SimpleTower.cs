@@ -20,25 +20,13 @@ namespace Progress
             return Quaternion.identity;
         }
 
-//        protected override void HandleProjectile(GameObject projectile, Monster monster)
-//        {
-//            var projectileBeh = projectile.GetComponent<GuidedProjectile>();
-
-//            projectileBeh.Target = monster.gameObject;
-//        }
-
         private void Update()
         {
             if (CanShoot())
             {
-                foreach (var monster in MonsterManager.Instance.GetActiveMonsters())
-                {
-                    if (DistanceWith(monster) <= _range)
-                    {
-                        MakeShot(monster);
-                        break;
-                    }
-                }
+                var target = GetNearestMonster(_range);
+
+                if (target != null) MakeShot(target);
             }
         }
     }
